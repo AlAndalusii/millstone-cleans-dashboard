@@ -1,15 +1,10 @@
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
-import { verifySessionToken, SESSION_COOKIE } from '@/lib/session'
+export const dynamic = 'force-dynamic'
+
 import { createClient } from '@/lib/supabase/server'
 import { Dashboard } from '@/components/dashboard/Dashboard'
 import type { Client } from '@/lib/types'
 
 export default async function Page() {
-  const cookieStore = await cookies()
-  const session = cookieStore.get(SESSION_COOKIE)?.value
-  if (!session || !verifySessionToken(session)) redirect('/login')
-
   const supabase = createClient()
   const { data: rows } = await supabase
     .from('businesses')

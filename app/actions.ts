@@ -1,10 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { SESSION_COOKIE } from '@/lib/session'
 import type { Client } from '@/lib/types'
 
 function toRow(data: Omit<Client, 'id'>) {
@@ -39,10 +36,4 @@ export async function deleteBusiness(id: string) {
   const { error } = await supabase.from('businesses').delete().eq('id', id)
   if (error) throw new Error(error.message)
   revalidatePath('/')
-}
-
-export async function signOut() {
-  const cookieStore = await cookies()
-  cookieStore.delete(SESSION_COOKIE)
-  redirect('/login')
 }

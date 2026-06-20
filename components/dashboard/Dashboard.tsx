@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { useState, useMemo, useTransition, useEffect } from 'react'
-import { Plus, Search, Trash2, Building2, CheckCircle2, Clock, AlertCircle, LogOut } from 'lucide-react'
+import { Plus, Search, Trash2, Building2, CheckCircle2, Clock, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ClientForm } from '@/components/dashboard/ClientForm'
@@ -18,7 +18,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { addBusiness, updateBusiness, deleteBusiness, signOut } from '@/app/actions'
+import { addBusiness, updateBusiness, deleteBusiness } from '@/app/actions'
 import type { Client } from '@/lib/types'
 
 interface DashboardProps {
@@ -97,12 +97,6 @@ export function Dashboard({ initialClients }: DashboardProps) {
     setIsFormOpen(true)
   }
 
-  function handleSignOut() {
-    startTransition(async () => {
-      await signOut()
-    })
-  }
-
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -127,27 +121,15 @@ export function Dashboard({ initialClients }: DashboardProps) {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <Button
-              onClick={openAddForm}
-              disabled={isPending}
-              size="sm"
-              className="bg-accent text-primary-foreground hover:bg-accent/90 font-semibold"
-            >
-              <Plus data-icon="inline-start" className="size-4" />
-              Add Client
-            </Button>
-            <Button
-              onClick={handleSignOut}
-              disabled={isPending}
-              size="sm"
-              variant="ghost"
-              className="text-primary-foreground/70 hover:text-primary-foreground hover:bg-white/10"
-              aria-label="Sign out"
-            >
-              <LogOut className="size-4" />
-            </Button>
-          </div>
+          <Button
+            onClick={openAddForm}
+            disabled={isPending}
+            size="sm"
+            className="bg-accent text-primary-foreground hover:bg-accent/90 font-semibold"
+          >
+            <Plus data-icon="inline-start" className="size-4" />
+            Add Client
+          </Button>
         </div>
       </header>
 
